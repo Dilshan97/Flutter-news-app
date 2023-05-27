@@ -39,6 +39,7 @@ dependencies:
   http: ^1.0.0
   google_fonts: ^4.0.5
   jiffy: ^6.1.0
+  loadmore: ^2.1.0
 
 dev_dependencies:
   flutter_test:

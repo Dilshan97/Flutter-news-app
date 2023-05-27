@@ -18,9 +18,11 @@ class ApiService {
     );
   }
 
-  Future<http.Response> getEverything() {
+  Future<http.Response> getEverything(String keyword, int page) {
+    var url = '$endpoint/everything?q=$keyword&language=en&sortBy=publishedAt&page=$page&apiKey=$apiKey';
+    print(url);
     return client.get(
-      Uri.parse('$endpoint/everything?q=tech&language=en&sortBy=publishedAt&apiKey=$apiKey'),
+      Uri.parse(url),
       headers: headers,
     );
   } 

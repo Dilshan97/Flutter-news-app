@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:loadmore/loadmore.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/listdata_model.dart';
-import 'package:news_app/models/news_model.dart';
+import 'package:news_app/models/news_model.dart' as m;
 import 'package:news_app/providers/news_provider.dart';
 import 'package:news_app/screens/home/widgets/CategoryItem.dart';
+import 'package:news_app/screens/home/widgets/newsCard.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,6 +28,45 @@ class _HomeState extends State<Home> {
   ];
 
   int activeCategory = 0;
+
+  int page = 1;
+  bool isFinish = false;
+  bool data = false;
+  List<m.News> articles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getNewsData();
+  }
+
+  Future<bool> getNewsData() async {
+    ListData listData = await NewsProvider()
+        .GetEverything(categories[activeCategory].toString(), page++);
+
+    if (listData.status) {
+      List<m.News> items = listData.data as List<m.News>;
+      data = true;
+
+      if (mounted) {
+        setState(() {});
+      }
+
+      if (items.length == listData.totalContent) {
+        isFinish = true;
+      }
+
+      if (items.isNotEmpty) {
+        articles.addAll(items);
+        setState(() {});
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,77 +99,53 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: 50,
-              width: size.width,
-              child: ListView.builder(
-                itemCount: categories.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) => CategoryItem(
-                  index: index,
-                  categoryName: categories[index],
-                  activeCategory: activeCategory,
-                  onClick: () => {
-                    setState(() {
-                      activeCategory = index;
-                    })
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: size.height * 0.75,
-              child: FutureBuilder(
-                future: NewsProvider().GetEverything(),
-                builder: (builder, snapshot) {
-                  if (snapshot.hasData) {
-                    List<News> articles = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: articles.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.network(
-                                articles[index].urlToImage.toString(),
-                              ),
-                              Text(
-                                articles[index].title.toString(),
-                              ),
-                              Text(Jiffy.parse(
-                                articles[index].publishedAt.toString(),
-                              ).fromNow().toString()),
-                              Text(
-                                articles[index].description.toString(),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.primary,
-                    ),
-                  );
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: 50,
+            width: size.width,
+            child: ListView.builder(
+              itemCount: categories.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) => CategoryItem(
+                index: index,
+                categoryName: categories[index],
+                activeCategory: activeCategory,
+                onClick: () {
+                  setState(() {
+                    activeCategory = index;
+                    articles = [];
+                    page = 1;
+                    isFinish = false;
+                    data = false;
+                  });
+                  getNewsData();
                 },
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: size.height * 0.75,
+            child: LoadMore(
+              isFinish: isFinish,
+              onLoadMore: getNewsData,
+              whenEmptyLoad: true,
+              delegate: const DefaultLoadMoreDelegate(),
+              textBuilder: DefaultLoadMoreTextBuilder.english,
+              child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) =>
+                    NewsCard(article: articles[index]),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

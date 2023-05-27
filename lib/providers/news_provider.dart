@@ -5,12 +5,16 @@ import 'package:news_app/models/news_model.dart';
 import 'package:news_app/services/Api.dart';
 
 class NewsProvider {
-  Future<List<News>> GetEverything() async {
-    List<News> articles = [];
-    await ApiService().getEverything().then((response) {
+  Future<ListData> GetEverything(String keyword, int page) async {
+    ListData articles = ListData([], 0, false);
+    await ApiService().getEverything(keyword, page).then((response) {
       if (response.statusCode == 200) {
         Iterable data = jsonDecode(response.body)['articles'];
-        articles = data.map((e) => News.fromJson(e)).toList();
+        articles = ListData(
+          data.map((e) => News.fromJson(e)).toList(),
+          jsonDecode(response.body)['totalResults'],
+          true,
+        );
       } else {
         throw Exception(response.statusCode);
       }
