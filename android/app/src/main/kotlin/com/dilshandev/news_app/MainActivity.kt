@@ -1,4 +1,4 @@
-package com.dilshandev.weather_app
+package com.dilshandev.news_app
 
 import io.flutter.embedding.android.FlutterActivity
 
