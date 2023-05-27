@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:weather_app/common/constants.dart';
+import 'package:news_app/common/constants.dart';
 
 class WeatherService {
   var client = http.Client();
