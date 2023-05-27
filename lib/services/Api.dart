@@ -18,5 +18,11 @@ class ApiService {
     );
   }
 
-  
+  Future<http.Response> getEverything() {
+    return client.get(
+      Uri.parse('$endpoint/everything?q=tech&language=en&sortBy=publishedAt&apiKey=$apiKey'),
+      headers: headers,
+    );
+  } 
+
 }
