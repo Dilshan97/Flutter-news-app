@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:loadmore/loadmore.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/listdata_model.dart';
