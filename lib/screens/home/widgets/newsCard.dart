@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/news_model.dart';
+import 'package:news_app/screens/news_info/news_info.dart';
 
 class NewsCard extends StatefulWidget {
   final News article;
@@ -19,61 +21,73 @@ class NewsCard extends StatefulWidget {
 class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              widget.article.urlToImage.toString(),
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => NewsInfo(
+              news: widget.article,
             ),
-            Text(
-              widget.article.title.toString(),
-              style: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w500,
-                ),
+          ),
+        )
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          alignment: Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                widget.article.urlToImage.toString(),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.article.author.toString(),
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+              Text(
+                widget.article.title.toString(),
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text(
-                  Jiffy.parse(
-                    widget.article.publishedAt.toString(),
-                  ).fromNow().toString(),
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.fade,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.article.author.toString(),
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Text(
-              widget.article.description.toString(),
-              style: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
-                ),
+                  Text(
+                    Jiffy.parse(
+                      widget.article.publishedAt.toString(),
+                    ).fromNow().toString(),
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w500,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            )
-          ],
+              Text(
+                widget.article.description.toString(),
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
