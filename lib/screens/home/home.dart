@@ -97,53 +97,55 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 50,
-            width: size.width,
-            child: ListView.builder(
-              itemCount: categories.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) => CategoryItem(
-                index: index,
-                categoryName: categories[index],
-                activeCategory: activeCategory,
-                onClick: () {
-                  setState(() {
-                    activeCategory = index;
-                    articles = [];
-                    page = 1;
-                    isFinish = false;
-                    data = false;
-                  });
-                  getNewsData();
-                },
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: size.height * 0.75,
-            child: LoadMore(
-              isFinish: isFinish,
-              onLoadMore: getNewsData,
-              whenEmptyLoad: true,
-              delegate: const DefaultLoadMoreDelegate(),
-              textBuilder: DefaultLoadMoreTextBuilder.english,
+            SizedBox(
+              height: 50,
+              width: size.width,
               child: ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) =>
-                    NewsCard(article: articles[index]),
+                itemCount: categories.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) => CategoryItem(
+                  index: index,
+                  categoryName: categories[index],
+                  activeCategory: activeCategory,
+                  onClick: () {
+                    setState(() {
+                      activeCategory = index;
+                      articles = [];
+                      page = 1;
+                      isFinish = false;
+                      data = false;
+                    });
+                    getNewsData();
+                  },
+                ),
               ),
             ),
-          )
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: size.height,
+              child: LoadMore(
+                isFinish: isFinish,
+                onLoadMore: getNewsData,
+                whenEmptyLoad: true,
+                delegate: const DefaultLoadMoreDelegate(),
+                textBuilder: DefaultLoadMoreTextBuilder.english,
+                child: ListView.builder(
+                  itemCount: articles.length,
+                  itemBuilder: (context, index) =>
+                      NewsCard(article: articles[index]),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

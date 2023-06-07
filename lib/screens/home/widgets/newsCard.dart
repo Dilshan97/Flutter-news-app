@@ -5,6 +5,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/news_model.dart';
 import 'package:news_app/screens/news_info/news_info.dart';
+import 'package:skeletons/skeletons.dart';
 
 class NewsCard extends StatefulWidget {
   final News article;
@@ -19,6 +20,9 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> {
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,8 +43,13 @@ class _NewsCardState extends State<NewsCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                widget.article.urlToImage.toString(),
+              Skeleton(
+                isLoading: isLoading,
+                skeleton: SkeletonParagraph(),
+                child: Image.network(
+                  widget.article.urlToImage.toString(),
+                  fit: BoxFit.contain,
+                ),
               ),
               Text(
                 widget.article.title.toString(),
