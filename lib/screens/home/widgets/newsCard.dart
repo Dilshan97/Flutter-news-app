@@ -21,8 +21,6 @@ class NewsCard extends StatefulWidget {
 
 class _NewsCardState extends State<NewsCard> {
 
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -43,13 +41,23 @@ class _NewsCardState extends State<NewsCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Skeleton(
-                isLoading: isLoading,
-                skeleton: SkeletonParagraph(),
-                child: Image.network(
-                  widget.article.urlToImage.toString(),
-                  fit: BoxFit.contain,
-                ),
+              Image.network(
+                widget.article.urlToImage.toString(),
+                fit: BoxFit.contain,
+                frameBuilder: (BuildContext context, Widget child, int? frame,
+                    bool wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded) return child; 
+                  if (frame == null) {
+                    return Center(
+                      child: Skeleton(
+                        isLoading: true,
+                        skeleton: SkeletonParagraph(),
+                        child: const Text(''),
+                      ),
+                    );
+                  }
+                  return child;
+                },
               ),
               Text(
                 widget.article.title.toString(),
