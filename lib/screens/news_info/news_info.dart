@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/news_model.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsInfo extends StatefulWidget {
   final News news;
@@ -17,6 +18,15 @@ class NewsInfo extends StatefulWidget {
 }
 
 class _NewsInfoState extends State<NewsInfo> {
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -107,7 +117,15 @@ class _NewsInfoState extends State<NewsInfo> {
               ),
             ),
             GestureDetector(
-              onTap: () => {},
+              onTap: () {
+                _launchInBrowser(
+                  Uri(
+                    scheme: "https",
+                    host: 'www.cylog.org',
+                    path: '/'
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

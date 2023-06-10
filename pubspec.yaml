@@ -42,6 +42,7 @@ dependencies:
   loadmore: ^2.1.0
   fluttertoast: ^8.2.2
   skeletons: ^0.0.3
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:
