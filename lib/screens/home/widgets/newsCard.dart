@@ -22,6 +22,7 @@ class NewsCard extends StatefulWidget {
 class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => {
         Navigator.push(
@@ -87,14 +88,18 @@ class _NewsCardState extends State<NewsCard> {
                             color: AppColors.black,
                             size: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              widget.article.author.toString(),
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: size.width / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                widget.article.author.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -128,7 +133,7 @@ class _NewsCardState extends State<NewsCard> {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                   Padding(
