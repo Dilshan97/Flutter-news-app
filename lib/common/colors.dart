@@ -9,4 +9,5 @@ class AppColors {
   static const lightGray = Color.fromARGB(255, 113, 113, 114);
   static const lighterGray = Color(0xffe0e0e0);
   static const transparent = Colors.transparent;
+  static const lighterBlack = Colors.black45;
 }

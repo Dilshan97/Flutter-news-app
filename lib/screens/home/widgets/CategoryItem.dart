@@ -30,8 +30,8 @@ class _CategoryItemState extends State<CategoryItem> {
         decoration: BoxDecoration(
           border: Border.all(
             color: widget.activeCategory == widget.index
-                ? AppColors.primary
-                : AppColors.lightGray,
+                ? AppColors.black
+                : AppColors.lighterBlack,
             width: widget.activeCategory == widget.index ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(50),
@@ -49,8 +49,8 @@ class _CategoryItemState extends State<CategoryItem> {
             style: GoogleFonts.poppins(
               textStyle: TextStyle(
                 color: widget.activeCategory == widget.index
-                    ? AppColors.primary
-                    : AppColors.lightGray,
+                    ? AppColors.black
+                    : AppColors.lighterBlack,
                 fontWeight: widget.activeCategory == widget.index
                     ? FontWeight.w600
                     : FontWeight.w500,
