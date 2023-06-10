@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:news_app/common/colors.dart';
 import 'package:news_app/models/news_model.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsInfo extends StatefulWidget {
   final News news;
@@ -17,6 +19,15 @@ class NewsInfo extends StatefulWidget {
 }
 
 class _NewsInfoState extends State<NewsInfo> {
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,30 +73,65 @@ class _NewsInfoState extends State<NewsInfo> {
                 left: 8,
                 right: 8,
               ),
-              child: Text(
-                widget.news.title.toString(),
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 8,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
                   Text(
-                    widget.news.author.toString(),
+                    widget.news.title.toString(),
                     style: GoogleFonts.poppins(
-                      color: AppColors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.person,
+                            color: AppColors.black,
+                            size: 20,
+                          ),
+                          Text(
+                            widget.news.author.toString(),
+                            style: GoogleFonts.poppins(
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.access_time,
+                            color: AppColors.black,
+                            size: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8,
+                            ),
+                            child: Text(
+                              Jiffy.parse(
+                                widget.news.publishedAt.toString(),
+                              ).fromNow().toString(),
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Text(
-                    widget.news.publishedAt.toString(),
+                    widget.news.content.toString(),
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                     ),
@@ -93,21 +139,19 @@ class _NewsInfoState extends State<NewsInfo> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 8,
-                top: 15,
-              ),
-              child: Text(
-                widget.news.content.toString(),
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                ),
-              ),
+            const SizedBox(
+              height: 50,
             ),
             GestureDetector(
-              onTap: () => {},
+              onTap: () {
+                _launchInBrowser(
+                  Uri(
+                    scheme: "https",
+                    host: 'www.cylog.org',
+                    path: '/',
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -116,6 +160,7 @@ class _NewsInfoState extends State<NewsInfo> {
                     "View full article",
                     style: GoogleFonts.poppins(
                       fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const Icon(
@@ -125,6 +170,35 @@ class _NewsInfoState extends State<NewsInfo> {
                   )
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.facebook,
+                    size: 26,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.email_outlined,
+                    size: 26,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.wechat_sharp,
+                    size: 26,
+                  ),
+                )
+              ],
             )
           ],
         ),
