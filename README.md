@@ -16,7 +16,6 @@ Go the [newsapi.org](https://newsapi.org) REST API and create an account.
 
 Go to the `assets/.env` and replace the **API KEY** that you created in previous step.
 
-There is a small limitation in the Developer version of the News.org REST API. Only 100 requests per day.
 
 ## App UI's
 
