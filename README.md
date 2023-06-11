@@ -1,16 +1,23 @@
-# weather_app
+# Flutter News App
 
-A simple weather application
+A simple News application built with Flutter. The news data fetch using a Free REST API provided by NewsAPI.org.
 
-## Getting Started
+## How to run this project
 
-This project is a starting point for a Flutter application.
+Clone this repository using following command.
 
-A few resources to get you started if this is your first Flutter project:
+`git clone https://github.com/Dilshan97/Flutter-news-app`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Then navigate to the project & install the libraries using following command.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`flutter pub get`
+
+Go the [newsapi.org](https://newsapi.org) REST API and create an account.
+
+Go to the `assets/.env` and replace the **API KEY** that you created in previous step.
+
+There is a small limitation in the Developer version of the News.org REST API. Only 100 requests per day.
+
+## App UI's
+
+| <img src="https://github.com/Dilshan97/Flutter-news-app/blob/master/screenshot/01.png?raw=true" style="width: 350px;"/> |  <img src="https://github.com/Dilshan97/Flutter-news-app/blob/master/screenshot/02.png?raw=true" style="width: 350px;"/>  |
