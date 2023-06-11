@@ -20,4 +20,4 @@ There is a small limitation in the Developer version of the News.org REST API. O
 
 ## App UI's
 
-| <img src="https://github.com/Dilshan97/Flutter-news-app/blob/master/screenshot/01.png?raw=true" style="width: 350px;"/> |  <img src="https://github.com/Dilshan97/Flutter-news-app/blob/master/screenshot/02.png?raw=true" style="width: 350px;"/>  |
+| <img src="https://github.com/Dilshan97/Flutter-news-app/blob/main/screenshots/01.png" style="width: 350px;"/> |  <img src="https://github.com/Dilshan97/Flutter-news-app/blob/master/screenshots/02.png?raw=true" style="width: 350px;"/>  |
