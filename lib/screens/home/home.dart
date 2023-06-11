@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loadmore/loadmore.dart';
 import 'package:news_app/common/colors.dart';
+import 'package:news_app/common/common.dart';
+import 'package:news_app/common/widgets/no_connectivity.dart';
 import 'package:news_app/models/listdata_model.dart';
 import 'package:news_app/models/news_model.dart' as m;
 import 'package:news_app/providers/news_provider.dart';
@@ -35,7 +37,23 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getNewsData();
+    checkConnectivity();
+  }
+
+  Future<void> checkConnectivity() async {
+    if (await getInternetStatus()) {
+      getNewsData();
+    } else {
+      Navigator.of(context, rootNavigator: true,)
+          .push(
+            MaterialPageRoute(
+              builder: (context) => const NoConnectivity(),
+            ),
+          )
+          .then(
+            (value) => checkConnectivity(),
+          );
+    }
   }
 
   Future<bool> getNewsData() async {
