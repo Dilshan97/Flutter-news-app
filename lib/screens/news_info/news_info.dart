@@ -95,10 +95,16 @@ class _NewsInfoState extends State<NewsInfo> {
                             color: AppColors.black,
                             size: 20,
                           ),
-                          Text(
-                            widget.news.author.toString(),
-                            style: GoogleFonts.poppins(
-                              color: AppColors.black,
+                          SizedBox(
+                            width: size.width / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                widget.news.author.toString(),
+                                style: GoogleFonts.poppins(
+                                  color: AppColors.black,
+                                ),
+                              ),
                             ),
                           ),
                         ],
